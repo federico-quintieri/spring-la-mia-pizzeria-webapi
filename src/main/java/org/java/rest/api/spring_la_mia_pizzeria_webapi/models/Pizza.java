@@ -3,12 +3,14 @@ package org.java.rest.api.spring_la_mia_pizzeria_webapi.models;
 import java.math.BigDecimal;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -27,8 +29,14 @@ public class Pizza {
     @NotBlank(message = "Nome pizza non può essere vuoto")
     private String nome;
 
+    @Lob
+    @NotBlank(message = "Descrizione non può essere vuota")
+    @Size(min = 8, message = "Minimo di 8 caratteri")
+    private String descrizione;
+
     @NotBlank(message = "Url non può essere vuoto")
     @Size(min = 10, max = 100, message = "Url deve essere di almeno 10 caratteri")
+    @Column(name = "imageurl") // Vero colonna nome nel database
     private String imageUrl;
 
     @Min(value = 0, message = "Prezzo minimo deve partire da zero")
@@ -91,9 +99,18 @@ public class Pizza {
         this.ingredienti = ingredienti;
     }
 
+    public String getDescrizione() {
+        return descrizione;
+    }
+
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
+    }
+
     // Override ToString
     @Override
     public String toString() {
-        return String.format("Nome pizza : %s \n Prezzo: %d ", this.nome, this.prezzo);
+        return String.format("Nome pizza : %s \n Prezzo: %s", this.nome, this.prezzo.toString());
+
     }
 }
