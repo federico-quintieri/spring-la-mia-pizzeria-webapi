@@ -65,7 +65,7 @@ public class PizzaController {
     }
 
     @PutMapping("/modifica/{id}")
-    public ResponseEntity<Pizza> store(@RequestBody Pizza pizza, @PathVariable Integer id) {
+    public ResponseEntity<Pizza> update(@RequestBody Pizza pizza, @PathVariable Integer id) {
 
         if (service.findPizzaById(id).isEmpty()) {
             return ResponseEntity.notFound().build();
